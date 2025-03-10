@@ -1,45 +1,60 @@
 import java.util.Scanner;
-
-public class Bai8 {
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Vui lòng nhập kích thước của mảng: ");
-        int lengthNumber = Integer.parseInt(scanner.nextLine());
-        if (lengthNumber == 0) {
-            System.out.println("Mảng không có phần tử");
-            System.exit(0);
-        }
-
-        int[] numbers = new int[lengthNumber];
-
-        System.out.println("Vui lòng nhập các phần tử của mảng: \n");
-        for (int i = 0; i < numbers.length; i++) {
-            numbers[i] = scanner.nextInt();
-        }
-
-        int[] newNumbers = new int[lengthNumber];
-        int currentIndex = 0;
-        for (int i = 0; i < numbers.length; i++) {
-            if (numbers[i] % 2 == 0) {
-                for (int j = currentIndex; j < newNumbers.length; j++) {
-                    newNumbers[j] = numbers[i];
-                    currentIndex++;
-                    break;
-                }
-            }
-        }
-        for (int i = 0; i < numbers.length; i++) {
-            if (numbers[i] % 2 != 0) {
-                for (int j = currentIndex; j < newNumbers.length; j++) {
-                    newNumbers[j] = numbers[i];
-                    currentIndex++;
-                    break;
-                }
-            }
-        }
-        System.out.println("Mảng sau khi sắp xếp: ");
-        for (int i = 0; i < newNumbers.length; i++) {
-            System.out.println(newNumbers[i]);
-        }
-    }
-}
+ 
+ public class Bai8 {
+     public static void main(String[] args) {
+         Scanner sc = new Scanner(System.in);
+ 
+         int n;
+         do {
+             System.out.print("Nhập số lượng phần tử của mảng: ");
+             n = sc.nextInt();
+             if (n <= 0) {
+                 System.out.println("Nhập lại!");
+             }
+         } while (n <= 0);
+ 
+         int[] arr = new int[n];
+         System.out.println("Nhập các phần tử của mảng:");
+         for (int i = 0; i < n; i++) {
+             arr[i] = sc.nextInt();
+         }
+ 
+         int[] freq = new int[n];
+         for (int i = 0; i < n; i++) {
+             if (freq[i] == -1) continue;
+             int count = 1;
+             for (int j = i + 1; j < n; j++) {
+                 if (arr[i] == arr[j]) {
+                     count++;
+                     freq[j] = -1;
+                 }
+             }
+             freq[i] = count;
+         }
+ 
+         int uniqueCount = 0;
+         for (int i = 0; i < n; i++) {
+             if (freq[i] == 1) uniqueCount++;
+         }
+ 
+         if (uniqueCount == 0) {
+             System.out.println("Không có phần tử nào duy nhất trong mảng");
+             return;
+         }
+ 
+         int[] uniqueArr = new int[uniqueCount];
+         int index = 0;
+         for (int i = 0; i < n; i++) {
+             if (freq[i] == 1) {
+                 uniqueArr[index++] = arr[i];
+             }
+         }
+ 
+         System.out.print("Mảng sau khi loại bỏ phần tử trùng lặp: ");
+         for (int num : uniqueArr) {
+             System.out.print(num + " ");
+         }
+ 
+         sc.close();
+     }
+ }
